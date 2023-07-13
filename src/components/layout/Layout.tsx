@@ -1,13 +1,11 @@
-import { FC, PropsWithChildren } from "react";
+import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 
-type Props = {} & PropsWithChildren;
-
-const Layout: FC<Props> = ({ children }) => {
+const Layout = () => {
   return (
     <div>
       <Navbar />
-      {children}
+      <Outlet />
     </div>
   );
 };

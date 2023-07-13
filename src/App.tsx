@@ -1,4 +1,10 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  RouterProvider,
+  Routes,
+  createBrowserRouter,
+} from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import LoginScreen from "./components/screens/LoginScreen";
 import HomeScreen from "./components/screens/HomeScreen";
@@ -8,20 +14,20 @@ import RegisterScreen from "./components/screens/RegisterScreen";
 import { SWRConfig } from "swr";
 import { swrGlobalConfig } from "./api/config";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <HomeScreen />,
-  },
-  {
-    path: "/login",
-    element: <LoginScreen />,
-  },
-  {
-    path: "/register",
-    element: <RegisterScreen />,
-  },
-]);
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <HomeScreen />,
+//   },
+//   {
+//     path: "/login",
+//     element: <LoginScreen />,
+//   },
+//   {
+//     path: "/register",
+//     element: <RegisterScreen />,
+//   },
+// ]);
 
 const theme = createTheme();
 
@@ -30,9 +36,15 @@ const App = () => {
     <SWRConfig value={swrGlobalConfig}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Layout>
-          <RouterProvider router={router} />
-        </Layout>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<HomeScreen />} />
+              <Route path="/login" element={<LoginScreen />} />
+              <Route path="/register" element={<RegisterScreen />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
       </ThemeProvider>
     </SWRConfig>
   );

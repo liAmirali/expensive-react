@@ -1,6 +1,6 @@
 import useSWR from "swr";
 
-const loginUser = () => {
+const useLogin = () => {
   const { data, error, isLoading, isValidating, mutate } =
     useSWR("/api/auth/login");
 
