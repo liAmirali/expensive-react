@@ -1,4 +1,3 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -11,8 +10,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Copyright from "../atoms/general/Copyright";
+import { useLogin } from "../../api/auth";
 
 const LoginForm = () => {
+  const { user } = useLogin();
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -20,9 +22,9 @@ const LoginForm = () => {
       email: data.get("email"),
       password: data.get("password"),
     });
-
-
   };
+
+  console.log("user :>> ", user);
 
   return (
     <Container component="main" maxWidth="xs">

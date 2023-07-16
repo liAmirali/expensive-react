@@ -1,8 +1,20 @@
-import useSWR from "swr";
+import { fetcher } from "./config";
 
-const useLogin = () => {
-  const { data, error, isLoading, isValidating, mutate } =
-    useSWR("/api/auth/login");
+interface loginUserParams {
+  email: string;
+  password: string;
+}
 
-  return { user: data, error, isLoading, isValidating };
+interface registerUserParams {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export const loginUser = (body: loginUserParams) => {
+  return fetcher.post("/auth/login", body);
+};
+
+export const registerUser = (body: registerUserParams) => {
+  return fetcher.post("/auth/register", body);
 };
