@@ -5,14 +5,15 @@ import HomeScreen from "./components/screens/HomeScreen";
 import { ThemeProvider } from "@emotion/react";
 import { CssBaseline, createTheme } from "@mui/material";
 import RegisterScreen from "./components/screens/RegisterScreen";
-import { SWRConfig } from "swr";
-import { swrGlobalConfig } from "./api/config";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const theme = createTheme();
 
+const queryClient = new QueryClient();
+
 const App = () => {
   return (
-    <SWRConfig value={swrGlobalConfig}>
+    <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
@@ -25,7 +26,7 @@ const App = () => {
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
-    </SWRConfig>
+    </QueryClientProvider>
   );
 };
 

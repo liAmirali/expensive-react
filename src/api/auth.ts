@@ -12,9 +12,9 @@ interface registerUserParams {
 }
 
 export const loginUser = (body: loginUserParams) => {
-  return fetcher.post("/auth/login", body);
+  return fetcher.post("/api/auth/login", body);
 };
 
 export const registerUser = (body: registerUserParams) => {
-  return fetcher.post("/auth/register", body);
+  return fetcher.post("/api/auth/register", body);
 };

@@ -1,30 +1,45 @@
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
+import {
+  Avatar,
+  Button,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link as LinkMUI,
+  Grid,
+  Box,
+  Typography,
+  Container,
+} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import Copyright from "../atoms/general/Copyright";
-import { useLogin } from "../../api/auth";
+import { useMutation } from "@tanstack/react-query";
+import { loginUser } from "../../api/auth";
+import { Link } from "react-router-dom";
 
 const LoginForm = () => {
-  const { user } = useLogin();
+  const mutation = useMutation({
+    mutationFn: loginUser,
+    onSuccess(data, variables, context) {
+      console.log("Successful");
+      console.log("data :>> ", data);
+      console.log("variables :>> ", variables);
+      console.log("context :>> ", context);
+    },
+  });
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+    const email = data.get("email") as string;
+    const password = data.get("password") as string;
 
-  console.log("user :>> ", user);
+    console.log({
+      email: email,
+      password: password,
+    });
+
+    mutation.mutate({ email, password });
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -77,14 +92,14 @@ const LoginForm = () => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
+              <LinkMUI variant="body2">
+                <Link to="#">Forgot password?</Link>
+              </LinkMUI>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+              <LinkMUI variant="body2">
+                <Link to="/register">{"Don't have an account? Sign Up"}</Link>
+              </LinkMUI>
             </Grid>
           </Grid>
         </Box>
