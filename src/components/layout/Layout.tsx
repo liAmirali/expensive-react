@@ -1,12 +1,15 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navbar from "./navbar/Navbar";
+import { Box } from "@mui/material";
 
 const Layout = () => {
   return (
-    <div>
+    <Box height="100vh">
       <Navbar />
-      <Outlet />
-    </div>
+      <Box height="90vh">
+        <Outlet />
+      </Box>
+    </Box>
   );
 };
 

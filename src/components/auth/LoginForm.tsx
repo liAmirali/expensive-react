@@ -1,37 +1,47 @@
 import {
   Avatar,
   Button,
-  TextField,
   FormControlLabel,
   Checkbox,
   Link as LinkMUI,
-  Grid,
   Box,
   Typography,
   Container,
 } from "@mui/material";
+import Input from "../atoms/inputs/formik/Input";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Copyright from "../atoms/general/Copyright";
 import { useMutation } from "@tanstack/react-query";
 import { loginUser } from "../../api/auth";
 import { Link } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { AxiosError } from "axios";
+import { ApiResponse } from "../../api/config";
+import { useAppDispatch } from "../../store";
+import { authActions } from "../../store/auth";
+
+interface LoginForm {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+}
 
 const LoginForm = () => {
+  const dispatch = useAppDispatch();
+
   const mutation = useMutation({
     mutationFn: loginUser,
-    onSuccess(data, variables, context) {
-      console.log("Successful");
-      console.log("data :>> ", data);
-      console.log("variables :>> ", variables);
-      console.log("context :>> ", context);
+    onSuccess({ data }) {
+      dispatch(authActions.loginUser({ accessToken: data.data.accessToken, user: data.data.user }));
     },
   });
+  const error = !!mutation.error
+    ? (mutation.error as AxiosError<ApiResponse>).response?.data
+    : undefined;
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get("email") as string;
-    const password = data.get("password") as string;
+  const handleSubmit = async (values: LoginForm) => {
+    const email = values.email;
+    const password = values.password;
 
     console.log({
       email: email,
@@ -41,11 +51,26 @@ const LoginForm = () => {
     mutation.mutate({ email, password });
   };
 
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email("Please enter a valid email address.")
+      .required("Please enter your account's email."),
+    password: Yup.string().required("Please enter your account's password."),
+  });
+
+  const formik = useFormik<LoginForm>({
+    initialValues: { email: "", password: "", rememberMe: false },
+    validationSchema,
+    onSubmit: handleSubmit,
+    validateOnBlur: false,
+    validateOnMount: false,
+  });
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 8,
+          mt: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -57,8 +82,10 @@ const LoginForm = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
+        {/* Form */}
+        <Box component="form" noValidate onSubmit={formik.handleSubmit} mt={1} width={"80%"}>
+          <Input
+            formik={formik}
             margin="normal"
             required
             fullWidth
@@ -68,7 +95,8 @@ const LoginForm = () => {
             autoComplete="email"
             autoFocus
           />
-          <TextField
+          <Input
+            formik={formik}
             margin="normal"
             required
             fullWidth
@@ -77,34 +105,44 @@ const LoginForm = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            boxProps={{ mt: 2 }}
           />
           <FormControlLabel
+            name="rememberMe"
+            checked={formik.values.rememberMe}
+            onChange={formik.handleChange}
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
+            sx={{ mt: 2 }}
           />
+          {error && (
+            <Typography mt={2} color="error">
+              {error.message || "Failed to login."}
+            </Typography>
+          )}
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 4 }}
+            disabled={mutation.isLoading}
           >
-            Sign In
+            {mutation.isLoading ? "Please wait..." : "Sign In"}
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <LinkMUI variant="body2">
-                <Link to="#">Forgot password?</Link>
-              </LinkMUI>
-            </Grid>
-            <Grid item>
-              <LinkMUI variant="body2">
-                <Link to="/register">{"Don't have an account? Sign Up"}</Link>
-              </LinkMUI>
-            </Grid>
-          </Grid>
+        </Box>
+
+        <Box display="flex" flexDirection="column" alignItems="start" mt={4} width={"80%"}>
+          <Link className="text-blue-600 underline" to="#">
+            Forgot password?
+          </Link>
+
+          <Link className="text-blue-600 underline" to="/register">
+            {"Don't have an account? Sign Up"}
+          </Link>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
+
+      {/* <Copyright /> */}
     </Container>
   );
 };
