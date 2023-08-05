@@ -6,9 +6,10 @@ interface LoginUserParams {
 }
 
 interface RegisterUserParams {
-  name: string;
   email: string;
   password: string;
+  firstName: string;
+  lastName: string;
 }
 
 interface LoginResData {
