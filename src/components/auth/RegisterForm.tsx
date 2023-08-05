@@ -1,15 +1,7 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Checkbox,
-  Container,
-  FormControlLabel,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Button, Container, Typography, Link } from "@mui/material";
 import * as Yup from "yup";
 import { LockOutlined } from "@mui/icons-material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { registerUser } from "../../api/auth";
 import { AxiosError } from "axios";
@@ -148,7 +140,7 @@ const RegisterForm = () => {
         </Box>
 
         <Box display="flex" flexDirection="column" alignItems="start" mt={4} width={"80%"}>
-          <Link className="text-blue-600 underline" to="/login">
+          <Link component={RouterLink} to="/login">
             {"Already registered? Log in!"}
           </Link>
         </Box>

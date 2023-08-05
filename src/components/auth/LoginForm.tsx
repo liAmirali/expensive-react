@@ -3,7 +3,7 @@ import {
   Button,
   FormControlLabel,
   Checkbox,
-  Link as LinkMUI,
+  Link,
   Box,
   Typography,
   Container,
@@ -12,7 +12,7 @@ import Input from "../atoms/inputs/formik/Input";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useMutation } from "@tanstack/react-query";
 import { loginUser } from "../../api/auth";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { AxiosError } from "axios";
@@ -133,11 +133,11 @@ const LoginForm = () => {
         </Box>
 
         <Box display="flex" flexDirection="column" alignItems="start" mt={4} width={"80%"}>
-          <Link className="text-blue-600 underline" to="#">
+          <Link component={RouterLink} to="#">
             Forgot password?
           </Link>
 
-          <Link className="text-blue-600 underline" to="/register">
+          <Link component={RouterLink} to="/register">
             {"Don't have an account? Sign Up"}
           </Link>
         </Box>

@@ -1,16 +1,12 @@
-import { MouseEvent, useState } from "react";
 import {
   AppBar,
   Box,
   Toolbar,
-  IconButton,
   Typography,
-  Menu,
   Container,
   Button,
-  MenuItem,
 } from "@mui/material";
-import { AdbOutlined, MenuOutlined } from "@mui/icons-material";
+import { AdbOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import UserAvatar from "./UserAvatar";
 import { useAppSelector } from "../../../store";
@@ -22,17 +18,7 @@ const pages = [
 ];
 
 const AppTopBar = () => {
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-
   const user = useAppSelector((state) => state.auth.user);
-
-  const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
 
   return (
     <AppBar position="static">
@@ -85,7 +71,6 @@ const AppTopBar = () => {
               <Link to={page.path}>
                 <Button
                   key={page.name}
-                  onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
                   >
                   {page.name}
