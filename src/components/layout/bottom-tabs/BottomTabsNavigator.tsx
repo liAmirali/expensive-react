@@ -1,8 +1,9 @@
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const tabs = [
+  { label: "Dashboard", path: "/dashboard" },
   { label: "Personal", path: "/personal" },
   { label: "Groups", path: "/groups" },
   { label: "Settings", path: "/settings" },
@@ -10,6 +11,16 @@ const tabs = [
 
 const BottomTabsNavigator = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Actives the correct tab on initial load 
+  useEffect(() => {
+    tabs.forEach((tab, index) => {
+      if (tab.path === location.pathname)
+        setActiveTab(index);
+    })
+  }, []) 
+  
   const [activeTab, setActiveTab] = useState(0);
 
   return (
@@ -17,7 +28,7 @@ const BottomTabsNavigator = () => {
       <BottomNavigation
         showLabels
         value={activeTab}
-        onChange={(event, newValue: number) => {
+        onChange={(_event, newValue: number) => {
           setActiveTab(newValue);
           navigate(tabs[newValue].path);
         }}
