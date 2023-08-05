@@ -32,7 +32,8 @@ const LoginForm = () => {
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess({ data }) {
-      dispatch(authActions.loginUser({ accessToken: data.data.accessToken, user: data.data.user }));
+      window.localStorage.setItem("accessToken", data.data.accessToken);
+      dispatch(authActions.setUser(data.data.user));
     },
   });
   const error = !!mutation.error

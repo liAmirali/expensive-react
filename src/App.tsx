@@ -1,13 +1,10 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Layout from "./components/layout/Layout";
-import LoginScreen from "./components/screens/LoginScreen";
-import HomeScreen from "./components/screens/HomeScreen";
+import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import { CssBaseline, createTheme } from "@mui/material";
-import RegisterScreen from "./components/screens/RegisterScreen";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider as ReactReduxProvider } from "react-redux";
 import store from "./store";
+import AppRoutes from "./components/layout/AppRoutes";
 
 const theme = createTheme();
 
@@ -20,13 +17,7 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<HomeScreen />} />
-                <Route path="/login" element={<LoginScreen />} />
-                <Route path="/register" element={<RegisterScreen />} />
-              </Route>
-            </Routes>
+            <AppRoutes />
           </BrowserRouter>
         </ThemeProvider>
       </QueryClientProvider>
