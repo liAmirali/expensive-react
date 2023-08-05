@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "./navbar/Navbar";
+import Navbar from "./app-bar/AppTopBar";
 import { Box } from "@mui/material";
+import BottomTabsNavigator from "./bottom-tabs/BottomTabsNavigator";
 
 const Layout = () => {
   return (
@@ -9,6 +10,7 @@ const Layout = () => {
       <Box height="90vh">
         <Outlet />
       </Box>
+      <BottomTabsNavigator />
     </Box>
   );
 };

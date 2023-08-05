@@ -21,7 +21,7 @@ const pages = [
   { name: "Register", path: "/register" },
 ];
 
-const Navbar = () => {
+const AppTopBar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const user = useAppSelector((state) => state.auth.user);
@@ -38,6 +38,7 @@ const Navbar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          {/* Logo on desktop */}
           <AdbOutlined sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
@@ -54,47 +55,10 @@ const Navbar = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Expensive
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuOutlined />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <Link to={page.path}>
-                    <Typography textAlign="center">{page.name}</Typography>
-                  </Link>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          {/* Logo on mobile */}
           <AdbOutlined sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
@@ -114,6 +78,8 @@ const Navbar = () => {
           >
             Expensive
           </Typography>
+
+          {/* Navigation menu on desktop */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Link to={page.path}>
@@ -121,13 +87,14 @@ const Navbar = () => {
                   key={page.name}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
-                >
+                  >
                   {page.name}
                 </Button>
               </Link>
             ))}
           </Box>
 
+          {/* User avatar */}
           {user === null ? <Link to="/login">Login</Link> : <UserAvatar user={user} />}
         </Toolbar>
       </Container>
@@ -135,4 +102,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default AppTopBar;
