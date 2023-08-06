@@ -8,7 +8,9 @@ import RootRouter from "./components/routers/RootRouter";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { theme } from "./styles/theme";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const queryClient = new QueryClient();
 
@@ -19,6 +21,7 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <CssBaseline />
+            <ToastContainer closeButton={false} />
             <BrowserRouter>
               <RootRouter />
             </BrowserRouter>

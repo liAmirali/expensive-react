@@ -14,3 +14,7 @@ export const getPersonalExpenses: QueryFunction = (data) => {
   console.log("parameter:", data);
   return fetcher.get<ApiResponse<{ expenses: IExpense[] }>>("/expense");
 };
+
+export const addPersonalExpense = (data: IExpense) => {
+  return fetcher.post<ApiResponse<{ expense: IExpense }>>("/expense", data);
+};

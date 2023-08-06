@@ -3,8 +3,12 @@ import Screen from "../../layout/Screen";
 import { useState } from "react";
 import Input from "../../atoms/inputs/formik/Input";
 import { useFormik } from "formik";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import { useMutation } from "@tanstack/react-query";
+import { addPersonalExpense } from "../../../api/expenses";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 interface CreateExpenseForm {
   value: number;
@@ -17,22 +21,34 @@ interface CreateExpenseForm {
 const AddExpenseScreen = () => {
   const [type, setType] = useState<"expense" | "income">("expense");
 
+  const expenseMutation = useMutation({
+    mutationFn: addPersonalExpense,
+    onSuccess: () => {
+      toast("Expense was successfully added.", { type: "success" });
+    },
+  });
+
   const handleFormSubmit = (values: CreateExpenseForm) => {
     const { value, currency, category, description } = values;
     const dateTime = dayjs(values.dateTime).toISOString();
 
-    console.log(value);
+    expenseMutation.mutate({ value, currency, category, description, dateTime });
   };
+
+  const validationSchema = Yup.object({
+    value: Yup.number().min(0, "Minimum value can be 0.").required("Required"),
+  });
 
   const formik = useFormik<CreateExpenseForm>({
     initialValues: {
       value: 0,
-      currency: "IRR",
+      currency: "IRT",
       category: "",
       description: "",
       dateTime: dayjs(), // now
     },
     onSubmit: handleFormSubmit,
+    validationSchema,
   });
 
   return (
@@ -82,7 +98,7 @@ const AddExpenseScreen = () => {
         </Grid>
 
         <Grid item xs={6}>
-          <DatePicker
+          <DateTimePicker
             value={formik.values.dateTime}
             onChange={(value) => formik.setFieldValue("dateTime", value)}
             sx={{ width: "100%" }}
@@ -90,7 +106,7 @@ const AddExpenseScreen = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Input fullWidth formik={formik} name="category" label="Description" />
+          <Input fullWidth formik={formik} name="description" label="Description" />
         </Grid>
 
         <Grid item xs={12}>
