@@ -1,15 +1,14 @@
+import { AppBar, Box, Toolbar, Typography, Container, Button } from "@mui/material";
 import {
-  AppBar,
-  Box,
-  Toolbar,
-  Typography,
-  Container,
-  Button,
-} from "@mui/material";
-import { AdbOutlined } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+  AdbOutlined,
+  ArrowBackIosNewOutlined,
+  ArrowBackIosNewRounded,
+  ArrowBackIosOutlined,
+} from "@mui/icons-material";
+import { Link, useNavigate } from "react-router-dom";
 import UserAvatar from "./UserAvatar";
 import { useAppSelector } from "../../../store";
+import { FC, ReactNode } from "react";
 
 const pages = [
   { name: "Home", path: "/" },
@@ -17,11 +16,29 @@ const pages = [
   { name: "Register", path: "/register" },
 ];
 
-const AppTopBar = () => {
+export interface TopBarProps {
+  showBackButton?: boolean;
+  backTo?: string;
+  backTitle?: string;
+  rightChild?: ReactNode;
+}
+
+const AppTopBar: FC<TopBarProps> = ({
+  showBackButton: backButton,
+  backTo,
+  backTitle,
+  rightChild,
+}) => {
   const user = useAppSelector((state) => state.auth.user);
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    if (backTo) navigate(backTo);
+    else navigate(-1);
+  };
 
   return (
-    <AppBar position="static">
+    <AppBar color="inherit" style={{ boxShadow: "none" }} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Logo on desktop */}
@@ -44,35 +61,11 @@ const AppTopBar = () => {
             Expensive
           </Typography>
 
-          {/* Logo on mobile */}
-          <AdbOutlined sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            Expensive
-          </Typography>
-
           {/* Navigation menu on desktop */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Link to={page.path}>
-                <Button
-                  key={page.name}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                  >
+                <Button key={page.name} sx={{ my: 2, color: "white", display: "block" }}>
                   {page.name}
                 </Button>
               </Link>
@@ -80,7 +73,20 @@ const AppTopBar = () => {
           </Box>
 
           {/* User avatar */}
-          {user === null ? <Link to="/login">Login</Link> : <UserAvatar user={user} />}
+          {backButton ? (
+            <Button
+              onClick={handleBackClick}
+              startIcon={<ArrowBackIosNewRounded fontSize="small" />}
+            >
+              <Typography fontSize="large">{backTitle || "Back"}</Typography>
+            </Button>
+          ) : user === null ? (
+            <Link to="/login">Login</Link>
+          ) : (
+            <UserAvatar user={user} />
+          )}
+
+          {rightChild && <Box ml="auto">{rightChild}</Box>}
         </Toolbar>
       </Container>
     </AppBar>

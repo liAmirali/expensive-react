@@ -1,12 +1,14 @@
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
-import { CssBaseline, createTheme } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider as ReactReduxProvider } from "react-redux";
 import store from "./store";
-import AppRoutes from "./components/layout/AppRoutes";
-
-const theme = createTheme();
+import RootRouter from "./components/routers/RootRouter";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { theme } from "./styles/theme";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 const queryClient = new QueryClient();
 
@@ -15,11 +17,14 @@ const App = () => {
     <ReactReduxProvider store={store}>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <BrowserRouter>
-            <AppRoutes />
-          </BrowserRouter>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <CssBaseline />
+            <BrowserRouter>
+              <RootRouter />
+            </BrowserRouter>
+          </LocalizationProvider>
         </ThemeProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </ReactReduxProvider>
   );

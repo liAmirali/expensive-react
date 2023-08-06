@@ -2,7 +2,8 @@ interface IUser {
   firstName: string;
   lastName: string;
   email: string;
-  groups: IGroup;
+  groups: IGroup[];
+  expenses: IExpense[];
   // profilePicture: File | null;
 }
 

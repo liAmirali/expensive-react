@@ -3,7 +3,7 @@ import { FormikProps } from "formik";
 import { FC } from "react";
 
 type Props = {
-  name: string;
+
   label: string;
   type?: string;
   id?: string;

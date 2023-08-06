@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import Layout from "./Layout";
+import Layout from "../layout/Layout";
 import DashboardScreen from "../screens/DashboardScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
@@ -10,9 +10,9 @@ import { authActions } from "../../store/auth";
 import { useEffect } from "react";
 import GroupsScreen from "../screens/GroupsScreen";
 import SettingsScreen from "../screens/SettingsScreen";
-import PersonalScreen from "../screens/PersonalScreen";
+import ExpensesRouter from "./ExpensesRouter";
 
-const AppRoutes = () => {
+const RootRouter = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -50,15 +50,15 @@ const AppRoutes = () => {
       <Route path="/" element={<Layout />}>
         <Route index element={<Navigate to="/dashboard" />} />
         <Route path="/dashboard" element={<DashboardScreen />} />
-        <Route path="/personal" element={<PersonalScreen />} />
+        <Route path="/expenses/*" element={<ExpensesRouter />} />
         <Route path="/groups" element={<GroupsScreen />} />
         <Route path="/settings" element={<SettingsScreen />} />
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
-        <Route path="*" element={<Navigate to="/dashboard" />} />
+        <Route path="*" element={<p>yo 404</p>} />
       </Route>
     </Routes>
   );
 };
 
-export default AppRoutes;
+export default RootRouter;

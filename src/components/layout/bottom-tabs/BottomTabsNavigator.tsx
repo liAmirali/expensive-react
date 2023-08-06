@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const tabs = [
   { label: "Dashboard", path: "/dashboard" },
-  { label: "Personal", path: "/personal" },
+  { label: "Expenses", path: "/expenses" },
   { label: "Groups", path: "/groups" },
   { label: "Settings", path: "/settings" },
 ];
@@ -13,18 +13,20 @@ const BottomTabsNavigator = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Actives the correct tab on initial load 
+  // Actives the correct tab on initial load
   useEffect(() => {
     tabs.forEach((tab, index) => {
-      if (tab.path === location.pathname)
+      if (location.pathname.includes(tab.path)) {
         setActiveTab(index);
-    })
-  }, []) 
-  
+        return;
+      }
+    });
+  }, []);
+
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <Paper sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }} elevation={3}>
+    <Paper elevation={3}>
       <BottomNavigation
         showLabels
         value={activeTab}
