@@ -1,12 +1,10 @@
-import { Box, Typography } from "@mui/material";
 import Screen from "../layout/Screen";
+import GroupsList from "../groups/GroupsList";
 
 const GroupsScreen = () => {
   return (
-    <Screen>
-      <Box>
-        <Typography>Groups</Typography>
-      </Box>
+    <Screen topBarProps={{ rightChild: <p>create group</p> }}>
+      <GroupsList />
     </Screen>
   );
 };
