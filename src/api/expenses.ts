@@ -1,13 +1,13 @@
 import { ApiResponse, fetcher } from "./config";
 
-interface GetExpenseParams {
-  minValue?: number;
-  maxValue?: number;
-  description?: string;
-  category?: string;
-  startDate?: Date;
-  endDate?: Date;
-}
+// interface GetExpenseParams {
+//   minValue?: number;
+//   maxValue?: number;
+//   description?: string;
+//   category?: string;
+//   startDate?: Date;
+//   endDate?: Date;
+// }
 
 export const getPersonalExpenses = () => {
   // console.log("queryKey:", queryKey);

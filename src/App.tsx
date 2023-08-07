@@ -11,7 +11,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // For react-toastify
-import "react-material-symbols/dist/rounded.css"; // For react-material-symbols 
+import "react-material-symbols/dist/rounded.css"; // For react-material-symbols
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 const queryClient = new QueryClient();
 
