@@ -1,14 +1,10 @@
 import { AppBar, Box, Toolbar, Typography, Container, Button } from "@mui/material";
-import {
-  AdbOutlined,
-  ArrowBackIosNewOutlined,
-  ArrowBackIosNewRounded,
-  ArrowBackIosOutlined,
-} from "@mui/icons-material";
+import { AdbOutlined } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import UserAvatar from "./UserAvatar";
 import { useAppSelector } from "../../../store";
 import { FC, ReactNode } from "react";
+import { MaterialSymbol } from "react-material-symbols";
 
 const pages = [
   { name: "Home", path: "/" },
@@ -38,7 +34,7 @@ const AppTopBar: FC<TopBarProps> = ({
   };
 
   return (
-    <AppBar color="inherit" position="static" sx={{zIndex: 2, boxShadow: "none"}}>
+    <AppBar color="inherit" position="static" sx={{ zIndex: 2, boxShadow: "none" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Logo on desktop */}
@@ -75,10 +71,13 @@ const AppTopBar: FC<TopBarProps> = ({
           {/* User avatar */}
           {backButton ? (
             <Button
+              sx={{
+                fontSize: "large",
+              }}
               onClick={handleBackClick}
-              startIcon={<ArrowBackIosNewRounded fontSize="small" />}
+              startIcon={<MaterialSymbol icon="arrow_back_ios_new" weight={100} />}
             >
-              <Typography fontSize="large">{backTitle || "Back"}</Typography>
+              {backTitle || "Back"}
             </Button>
           ) : user === null ? (
             <Link to="/login">Login</Link>

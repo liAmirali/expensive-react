@@ -1,6 +1,4 @@
-import { QueryFunction, QueryFunctionContext } from "@tanstack/react-query";
 import { ApiResponse, fetcher } from "./config";
-import { AxiosResponse } from "axios";
 
 interface GetExpenseParams {
   minValue?: number;
