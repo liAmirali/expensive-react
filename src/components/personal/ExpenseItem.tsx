@@ -1,6 +1,10 @@
 import { Box, Typography } from "@mui/material";
+import dayjs from "dayjs";
+import relativeTime from  'dayjs/plugin/relativeTime';
 import { FC } from "react";
 import { MaterialSymbol } from "react-material-symbols";
+
+dayjs.extend(relativeTime);
 
 interface Props {
   expense: IExpense;
@@ -18,7 +22,7 @@ const ExpenseItem: FC<Props> = ({ expense }) => {
 
       <Box flexGrow={1}>
         <Typography variant="h6">{expense.title}</Typography>
-        <Typography variant="caption">{expense.category + " | " + expense.dateTime}</Typography>
+        <Typography variant="caption">{expense.category + " | " + dayjs(expense.dateTime).fromNow()}</Typography>
       </Box>
 
       <Box>
