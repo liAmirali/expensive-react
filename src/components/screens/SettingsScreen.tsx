@@ -1,14 +1,17 @@
 import { Settings } from "@mui/icons-material";
 import { Box, Typography } from "@mui/material";
+import Screen from "../layout/Screen";
 
 const SettingsScreen = () => {
   return (
-    <Box>
-      <Typography>
-        <Settings />
-        yo commin soon
-      </Typography>
-    </Box>
+    <Screen>
+      <Box>
+        <Typography>
+          <Settings />
+          yo commin soon
+        </Typography>
+      </Box>
+    </Screen>
   );
 };
 

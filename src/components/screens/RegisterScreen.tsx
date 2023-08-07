@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import RegisterForm from "../auth/RegisterForm";
 import { useAppSelector } from "../../store";
 import { useEffect } from "react";
+import Screen from "../layout/Screen";
 
 const RegisterScreen = () => {
   const navigate = useNavigate();
@@ -14,7 +15,11 @@ const RegisterScreen = () => {
     }
   }, [user]);
 
-  return <RegisterForm />;
+  return (
+    <Screen>
+      <RegisterForm />
+    </Screen>
+  );
 };
 
 export default RegisterScreen;

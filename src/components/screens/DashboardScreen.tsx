@@ -1,8 +1,12 @@
+import Screen from "../layout/Screen";
+
 const DashboardScreen = () => {
   return (
-    <div>
-      <p>Dashboard page</p>
-    </div>
+    <Screen>
+      <div>
+        <p>Dashboard page</p>
+      </div>
+    </Screen>
   );
 };
 

@@ -33,6 +33,8 @@ const AppTopBar: FC<TopBarProps> = ({
     else navigate(-1);
   };
 
+  if (user === null) return <></>;
+
   return (
     <AppBar color="inherit" position="static" sx={{ zIndex: 2, boxShadow: "none" }}>
       <Container maxWidth="xl">
@@ -79,10 +81,8 @@ const AppTopBar: FC<TopBarProps> = ({
             >
               {backTitle || "Back"}
             </Button>
-          ) : user === null ? (
-            <Link to="/login">Login</Link>
           ) : (
-            <UserAvatar user={user} />
+            user !== null && <UserAvatar user={user} />
           )}
 
           {rightChild && <Box ml="auto">{rightChild}</Box>}
