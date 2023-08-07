@@ -1,5 +1,6 @@
-import { QueryFunction } from "@tanstack/react-query";
+import { QueryFunction, QueryFunctionContext } from "@tanstack/react-query";
 import { ApiResponse, fetcher } from "./config";
+import { AxiosResponse } from "axios";
 
 interface GetExpenseParams {
   minValue?: number;
@@ -10,8 +11,8 @@ interface GetExpenseParams {
   endDate?: Date;
 }
 
-export const getPersonalExpenses: QueryFunction = (data) => {
-  console.log("parameter:", data);
+export const getPersonalExpenses = () => {
+  // console.log("queryKey:", queryKey);
   return fetcher.get<ApiResponse<{ expenses: IExpense[] }>>("/expense");
 };
 

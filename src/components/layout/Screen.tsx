@@ -11,7 +11,7 @@ const Screen: FC<Props> = ({ children, topBarProps }) => {
   return (
     <Box display="flex" flexDirection="column" flexGrow={1}>
       <AppTopBar {...topBarProps} />
-      <Box flexGrow={1} py={2} px={3}>
+      <Box bgcolor="#f5f5f5" flexGrow={1} py={2} px={3}>
         {children}
       </Box>
     </Box>

@@ -38,7 +38,7 @@ const AppTopBar: FC<TopBarProps> = ({
   };
 
   return (
-    <AppBar color="inherit" style={{ boxShadow: "none" }} position="static">
+    <AppBar color="inherit" position="static" sx={{zIndex: 2, boxShadow: "none"}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Logo on desktop */}

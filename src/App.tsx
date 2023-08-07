@@ -10,7 +10,8 @@ import { theme } from "./styles/theme";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css"; // For react-toastify
+import "react-material-symbols/dist/rounded.css"; // For react-material-symbols 
 
 const queryClient = new QueryClient();
 

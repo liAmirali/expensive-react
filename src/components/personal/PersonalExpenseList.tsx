@@ -1,22 +1,22 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useEffect } from "react";
-import { useAppSelector } from "../../store";
 import ExpenseItem from "./ExpenseItem";
 import BankNoteIcon from "../icons/BankNoteIcon";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getPersonalExpenses } from "../../api/expenses";
+import BackdropLoading from "../atoms/loading/BackdropLoading";
 
 const PersonalExpenseList = () => {
-  // const expense = useQuery({ queryKey: ["personalExpenses"], queryFn: getPersonalExpenses });
-  const expenses = useAppSelector((state) => state.auth.user?.expenses);
-
-  useEffect(() => {
-    console.log("expense :>> ", expenses);
-  }, [expenses]);
+  const expenses = useQuery({ queryKey: ["personalExpenses"], queryFn: getPersonalExpenses });
+  const res = expenses.data?.data;
 
   return (
     <Box height="100%">
-      {expenses && expenses.length > 0 ? (
-        expenses.map((expense) => <ExpenseItem expense={expense} />)
+      <BackdropLoading open={expenses.isLoading} />
+      {expenses.isError ? (
+        <p>Error</p>
+      ) : res && res.data.expenses.length > 0 ? (
+        res.data.expenses.map((expense) => <ExpenseItem expense={expense} />)
       ) : (
         <Box
           display="flex"
@@ -31,7 +31,7 @@ const PersonalExpenseList = () => {
           </Typography>
           <Link to="add">
             <Button size="large">Try adding new ones</Button>
-        </Link>
+          </Link>
         </Box>
       )}
     </Box>

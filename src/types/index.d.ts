@@ -19,11 +19,15 @@ interface IOccasion {
   expenses: IOccasionExpense;
 }
 
+type ExpenseType = "EXPENSE" | "INCOME";
+
 interface IExpense {
+  type: ExpenseType;
   value: number;
+  currency: string;
+  title: string;
   description?: string;
   category?: string;
-  currency?: string;
   dateTime: string;
 }
 

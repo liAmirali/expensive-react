@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 
 interface CreateExpenseForm {
   value: number;
+  title: string;
   currency: string;
   category: string;
   description: string;
@@ -19,7 +20,7 @@ interface CreateExpenseForm {
 }
 
 const AddExpenseScreen = () => {
-  const [type, setType] = useState<"expense" | "income">("expense");
+  const [type, setType] = useState<ExpenseType>("EXPENSE");
 
   const expenseMutation = useMutation({
     mutationFn: addPersonalExpense,
@@ -29,10 +30,10 @@ const AddExpenseScreen = () => {
   });
 
   const handleFormSubmit = (values: CreateExpenseForm) => {
-    const { value, currency, category, description } = values;
+    const { value, currency, title, category, description } = values;
     const dateTime = dayjs(values.dateTime).toISOString();
 
-    expenseMutation.mutate({ value, currency, category, description, dateTime });
+    expenseMutation.mutate({ type, value, title, currency, category, description, dateTime });
   };
 
   const validationSchema = Yup.object({
@@ -43,6 +44,7 @@ const AddExpenseScreen = () => {
     initialValues: {
       value: 0,
       currency: "IRT",
+      title: "",
       category: "",
       description: "",
       dateTime: dayjs(), // now
@@ -61,14 +63,14 @@ const AddExpenseScreen = () => {
         sx={{ mt: 4 }}
       >
         <Button
-          onClick={() => setType("expense")}
-          variant={type === "expense" ? "contained" : "outlined"}
+          onClick={() => setType("EXPENSE")}
+          variant={type === "EXPENSE" ? "contained" : "outlined"}
         >
           Expense
         </Button>
         <Button
-          onClick={() => setType("income")}
-          variant={type === "income" ? "contained" : "outlined"}
+          onClick={() => setType("INCOME")}
+          variant={type === "INCOME" ? "contained" : "outlined"}
         >
           Income
         </Button>
@@ -93,6 +95,10 @@ const AddExpenseScreen = () => {
           </Select>
         </Grid>
 
+        <Grid item xs={12}>
+          <Input fullWidth formik={formik} name="title" label="Title" />
+        </Grid>
+
         <Grid item xs={6}>
           <Input fullWidth formik={formik} name="category" label="Category" />
         </Grid>
@@ -110,8 +116,14 @@ const AddExpenseScreen = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 4 }}>
-            Create
+          <Button
+            disabled={expenseMutation.isLoading}
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 4 }}
+          >
+            {expenseMutation.isLoading ? "Creating..." : "Create"}
           </Button>
         </Grid>
       </Grid>
