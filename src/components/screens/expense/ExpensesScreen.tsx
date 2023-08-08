@@ -6,8 +6,6 @@ const ExpensesScreen = () => {
   return (
     <Screen topBarProps={{ rightChild: <CreateExpenseTopBarButton /> }}>
       <PersonalExpenseList />
-
-      {}
     </Screen>
   );
 };

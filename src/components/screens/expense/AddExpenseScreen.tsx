@@ -56,6 +56,7 @@ const AddExpenseScreen = () => {
   return (
     <Screen topBarProps={{ showBackButton: true }}>
       <Typography variant="h4">Add new Expense</Typography>
+
       <ButtonGroup
         disableElevation
         fullWidth

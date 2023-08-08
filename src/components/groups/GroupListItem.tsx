@@ -8,8 +8,6 @@ interface Props {
 }
 
 const GroupListItem: FC<Props> = ({ group }) => {
-  console.log("group:", group);
-
   return (
     <Box
       display="flex"

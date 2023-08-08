@@ -1,6 +1,7 @@
 interface IUser {
-  firstName: string;
-  lastName: string;
+  _id: string;
+  name: string;
+  username: string;
   email: string;
   groups: IGroup[];
   expenses: IExpense[];

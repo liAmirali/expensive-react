@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import RegisterForm from "../auth/RegisterForm";
-import { useAppSelector } from "../../store";
+import RegisterForm from "../../auth/RegisterForm";
+import { useAppSelector } from "../../../store";
 import { useEffect } from "react";
-import Screen from "../layout/Screen";
+import Screen from "../../layout/Screen";
 
 const RegisterScreen = () => {
   const navigate = useNavigate();

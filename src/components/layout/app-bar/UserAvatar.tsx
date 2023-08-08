@@ -23,10 +23,11 @@ const UserAvatar: FC<Props> = ({ user }) => {
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           <Avatar
-            sx={{ backgroundColor: theme.palette.primary.main }}
-            alt={user.firstName + " " + user.lastName}
+            sx={{ backgroundColor: theme.palette.primary.main
+             }}
+            alt={user.name}
           >
-            {user.firstName[0] + user.lastName[0]}
+            {user.name[0]}
           </Avatar>
         </IconButton>
       </Tooltip>
