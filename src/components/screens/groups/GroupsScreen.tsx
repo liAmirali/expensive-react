@@ -1,6 +1,6 @@
 import Screen from "../../layout/Screen";
 import GroupsList from "../../groups/GroupsList";
-import CreateGroupTopBarButton from "./CreateGroupTopBarButton";
+import CreateGroupTopBarButton from "../../groups/CreateGroupTopBarButton";
 
 const GroupsScreen = () => {
   return (

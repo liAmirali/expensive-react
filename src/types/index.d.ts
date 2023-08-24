@@ -9,6 +9,7 @@ interface IUser {
 }
 
 interface IGroup {
+  _id: string;
   name: string;
   members: IUser[] | string[];
   occasions: IOccasion[];

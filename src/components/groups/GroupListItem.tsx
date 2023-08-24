@@ -2,16 +2,24 @@ import { Box, Typography } from "@mui/material";
 import { FC } from "react";
 import { getCorrectNoun } from "../../utils/getters";
 import { MaterialSymbol } from "react-material-symbols";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   group: IGroup;
 }
 
 const GroupListItem: FC<Props> = ({ group }) => {
+  const navigate = useNavigate();
+
+  const handleItemClick = () => {
+    navigate(group._id);
+  };
+
   return (
     <Box
       display="flex"
       sx={{ backgroundColor: "white", borderRadius: 3, border: "1px #f0f0f0 solid", p: 2, mb: 2 }}
+      onClick={handleItemClick}
     >
       {/* Group Picture */}
       <Box display="flex" alignItems="center" mr={2}>

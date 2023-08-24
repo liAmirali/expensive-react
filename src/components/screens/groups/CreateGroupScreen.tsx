@@ -1,6 +1,6 @@
 import { Autocomplete, Button, Chip, Grid, TextField, Typography } from "@mui/material";
 import Screen from "../../layout/Screen";
-import { isError, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { SearchedUser, searchUsers } from "../../../api/user";
 import { FormEventHandler, useEffect, useState } from "react";
 import { CreateGroupData, createGroup } from "../../../api/groups";
