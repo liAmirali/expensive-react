@@ -19,7 +19,7 @@ const GroupsList = () => {
       {groupsQuery.isError ? (
         <p>Error</p>
       ) : res && res.data.groups.length > 0 ? (
-        res.data.groups.map((group) => <GroupListItem group={group} />)
+        res.data.groups.map((group) => <GroupListItem group={group} key={group._id} />)
       ) : res ? (
         <Box
           display="flex"

@@ -62,7 +62,7 @@ const AppTopBar: FC<TopBarProps> = ({
           {/* Navigation menu on desktop */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Link to={page.path}>
+              <Link to={page.path} key={page.path}>
                 <Button key={page.name} sx={{ my: 2, color: "white", display: "block" }}>
                   {page.name}
                 </Button>

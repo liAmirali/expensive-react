@@ -36,7 +36,11 @@ const BottomTabsNavigator = () => {
         }}
       >
         {tabs.map((tab, index) => (
-          <BottomNavigationAction label={tab.label} value={index} />
+          <BottomNavigationAction
+            label={tab.label}
+            value={index}
+            key={tab.label + "__" + tab.path}
+          />
         ))}
       </BottomNavigation>
     </Paper>
