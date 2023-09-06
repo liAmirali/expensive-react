@@ -9,7 +9,7 @@ const GroupsRouter = () => {
       <Route path="/">
         <Route index element={<GroupsScreen />} />
         <Route path="create" element={<CreateGroupsScreen />} />
-        <Route path=":id" element={<GroupViewScreen />} />
+        <Route path=":groupId" element={<GroupViewScreen />} />
       </Route>
     </Routes>
   );

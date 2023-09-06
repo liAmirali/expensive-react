@@ -16,7 +16,6 @@ const Screen: FC<Props> = ({ children, topBarProps }) => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
             alignItems: "stretch",
             height: "100%",
           }}

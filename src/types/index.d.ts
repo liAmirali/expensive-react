@@ -16,9 +16,10 @@ interface IGroup {
 }
 
 interface IOccasion {
+  _id: string;
   name: string;
-  members: IUser | string[];
-  expenses: IOccasionExpense;
+  members: IUser[] | string[];
+  expenses: IOccasionExpense[];
 }
 
 type ExpenseType = "EXPENSE" | "INCOME";
