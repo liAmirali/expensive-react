@@ -18,7 +18,6 @@ const GroupViewScreen = () => {
   });
 
   const groupData = groupQuery.data?.data.data;
-  console.log("groupData :>> ", groupData);
 
   useEffect(() => {
     if (groupQuery.isError) {

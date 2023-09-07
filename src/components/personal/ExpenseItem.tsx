@@ -24,7 +24,7 @@ const ExpenseItem: FC<Props> = ({ expense }) => {
       <Box flexGrow={1}>
         <Typography variant="h6">{expense.title}</Typography>
         <Typography variant="caption">
-          {expense.category + " | " + dayjs(expense.dateTime).fromNow()}
+          {(expense.category ? expense.category + " | " : "") + dayjs(expense.dateTime).fromNow()}
         </Typography>
       </Box>
 

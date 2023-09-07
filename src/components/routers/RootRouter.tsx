@@ -8,7 +8,6 @@ import { useMutation } from "@tanstack/react-query";
 import { verifyMe } from "../../api/auth";
 import { authActions } from "../../store/auth";
 import { useEffect } from "react";
-import GroupsScreen from "../screens/groups/GroupsScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import ExpensesRouter from "./ExpensesRouter";
 import GroupsRouter from "./GroupsRouter";
