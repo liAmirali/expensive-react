@@ -23,4 +23,12 @@ export const createGroup = (data: CreateGroupData) => {
   return fetcher.post<ApiResponse<{ group: IGroup }>>("/group", data);
 };
 
-// export const
+export const getOccasionDetails: QueryFunction<
+  AxiosResponse<ApiResponse<{ occasion: IOccasion; debtsAndDemands: DebtsAndDemands }>>,
+  ["occasionDetails", "groupId", "occasionId", { groupId: string; occasionId: string }]
+> = ({ queryKey }) => {
+  const groupId = queryKey[3].groupId;
+  const occasionId = queryKey[3].occasionId;
+
+  return fetcher.get(`/group/occasion/${occasionId}`, { params: { groupId } });
+};

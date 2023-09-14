@@ -5,26 +5,13 @@ interface IUser {
   email: string;
   groups: IGroup[];
   expenses: IExpense[];
-  // profilePicture: File | null;
-}
-
-interface IGroup {
-  _id: string;
-  name: string;
-  members: IUser[] | string[];
-  occasions: IOccasion[];
-}
-
-interface IOccasion {
-  _id: string;
-  name: string;
-  members: IUser[] | string[];
-  expenses: IOccasionExpense[];
+  profilePicture?: string | null;
 }
 
 type ExpenseType = "EXPENSE" | "INCOME";
 
 interface IExpense {
+  _id: string;
   type: ExpenseType;
   value: number;
   currency: string;
@@ -34,7 +21,3 @@ interface IExpense {
   dateTime: string;
 }
 
-interface IOccasionExpense extends IExpense {
-  paidBy: IUser | string;
-  assignedTo: IUser[] | string[];
-}

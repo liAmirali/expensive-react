@@ -2,21 +2,35 @@ import { FC } from "react";
 import Screen from "../../layout/Screen";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getGroupDetails } from "../../../api/groups";
 import { Box, Typography } from "@mui/material";
 import AvatarGroup from "../../atoms/users/AvatarGroup";
-import ExpenseItem from "../../personal/ExpenseItem";
+import { getGroupDetails, getOccasionDetails } from "../../../api/groups";
+import { useAppSelector } from "../../../store";
+import OccasionExpenseItem from "../../groups/OccasionExpenseItem";
 
 const OccasionViewScreen: FC = () => {
   const { groupId, occasionId } = useParams();
+
+  const loggedInUser = useAppSelector((state) => state.auth.user);
 
   const groupQuery = useQuery({
     queryKey: ["groupDetails", "groupId", { groupId: groupId! }],
     queryFn: getGroupDetails,
   });
 
+  const occasionQuery = useQuery({
+    queryKey: [
+      "occasionDetails",
+      "groupId",
+      "occasionId",
+      { groupId: groupId!, occasionId: occasionId! },
+    ],
+    queryFn: getOccasionDetails,
+  });
+
   const groupData = groupQuery.data?.data.data.group;
-  const occasionData = groupData?.occasions.find((i) => i._id === occasionId);
+  const occasionData = occasionQuery.data?.data.data.occasion;
+  const debtsAndDemands = occasionQuery.data?.data.data.debtsAndDemands;
 
   const members =
     groupData && occasionData
@@ -27,7 +41,7 @@ const OccasionViewScreen: FC = () => {
 
   console.log("groupId :>> ", groupId);
   console.log("occasionId :>> ", occasionId);
-  console.log('occasionData :>> ', occasionData);
+  console.log("occasionData :>> ", occasionData);
 
   return (
     <Screen topBarProps={{ showBackButton: true }}>
@@ -41,7 +55,12 @@ const OccasionViewScreen: FC = () => {
           <Box>
             <Typography>Expenses</Typography>
             {occasionData.expenses.map((expense) => (
-              <ExpenseItem expense={expense} />
+              <OccasionExpenseItem
+                key={expense._id}
+                expense={expense}
+                paidBy={expense.paidBy}
+                userId={loggedInUser?._id}
+              />
             ))}
           </Box>
         </Box>
