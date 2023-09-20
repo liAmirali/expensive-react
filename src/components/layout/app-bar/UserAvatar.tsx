@@ -1,6 +1,7 @@
 import { Avatar, Box, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { FC, MouseEvent, useState } from "react";
 import { theme } from "../../../styles/theme";
+import { getUserDisplayName } from "../../../utils/getters";
 
 const settings = ["Profile", "Account", "Dashboard", "Settings"];
 
@@ -22,12 +23,8 @@ const UserAvatar: FC<Props> = ({ user }) => {
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar
-            sx={{ backgroundColor: theme.palette.primary.main
-             }}
-            alt={user.name}
-          >
-            {user.name[0]}
+          <Avatar sx={{ backgroundColor: theme.palette.primary.main }} alt={user.name}>
+            {getUserDisplayName(user)[0]}
           </Avatar>
         </IconButton>
       </Tooltip>

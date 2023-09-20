@@ -13,8 +13,8 @@ interface IOccasion {
 }
 
 interface IOccasionExpense extends IExpense {
-  paidBy: IUser | string;
-  assignedTo: IUser[] | string[];
+  paidBy: string;
+  assignedTo: string[];
 }
 
 type DebtsAndDemands = { [key: string]: { demand: number; debt: number } };

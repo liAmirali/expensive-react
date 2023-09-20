@@ -2,16 +2,24 @@ import { Box, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { FC } from "react";
 import { MaterialSymbol } from "react-material-symbols";
+import { useAppSelector } from "../../store";
+import { getUserDisplayName } from "../../utils/getters";
+import SingleAvatar from "../atoms/users/SingleAvatar";
+import AvatarGroup from "../atoms/users/AvatarGroup";
 
 interface Props {
   expense: IExpense;
-  userId?: string;
   paidBy?: IUser;
   assignedTo?: IUser[];
+  debtsAndDemands: DebtsAndDemands;
 }
 
-const OccasionExpenseItem: FC<Props> = ({ expense, userId }) => {
-  console.log('expense :>> ', expense);
+const OccasionExpenseItem: FC<Props> = ({ expense, paidBy, assignedTo, debtsAndDemands }) => {
+  const loggedInUser = useAppSelector((state) => state.auth.user)!;
+
+  const assigneeCandidates = assignedTo?.slice(0, 3) || [];
+
+  console.log("expense :>> ", expense);
   return (
     <Box
       display="flex"
@@ -25,15 +33,41 @@ const OccasionExpenseItem: FC<Props> = ({ expense, userId }) => {
         )}
       </Box>
 
-      <Box flexGrow={1}>
+      <Box flexGrow={1} display="flex" flexDirection="column" rowGap={0.5}>
+        {paidBy && (
+          <Box display="flex" columnGap={1} alignItems="center">
+            <SingleAvatar person={paidBy} width={20} height={20} />
+            <Typography variant="caption">
+              {(paidBy._id === loggedInUser._id ? "You" : getUserDisplayName(paidBy)) + " paid"}
+            </Typography>
+          </Box>
+        )}
         <Typography variant="h6">{expense.title}</Typography>
-        <Typography>{}</Typography>
         <Typography variant="caption">
-          {(expense.category ? expense.category + " | " : "") + dayjs(expense.dateTime).fromNow()}
+          {dayjs(expense.dateTime).fromNow() + (expense.category ? " | " + expense.category : "")}
         </Typography>
+        {assignedTo ? (
+          <Box display="flex" columnGap={1} alignItems="center">
+            <AvatarGroup people={assignedTo} n={3} width={20} height={20} />
+            <Typography variant="caption">
+              {assigneeCandidates.map(
+                (assignee, index) =>
+                  getUserDisplayName(assignee) +
+                  (index === assigneeCandidates.length - 2
+                    ? " and "
+                    : index === assigneeCandidates.length - 1
+                    ? ""
+                    : ", ")
+              )}{" "}
+              are assigned.
+            </Typography>
+          </Box>
+        ) : (
+          <Typography>Nobody is assigned.</Typography>
+        )}
       </Box>
 
-      <Box>
+      <Box display="flex" alignItems="center" columnGap={1}>
         <Typography variant="h6" color={expense.type === "EXPENSE" ? "error" : "green"}>
           {(expense.type === "EXPENSE" ? "-" : "+") + expense.value.toString().toLocaleString()}
         </Typography>

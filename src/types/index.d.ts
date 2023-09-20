@@ -1,9 +1,9 @@
 interface IUser {
   _id: string;
-  name: string;
+  name?: string;
   username: string;
-  email: string;
-  groups: IGroup[];
+  email?: string;
+  groups?: IGroup[];
   expenses: IExpense[];
   profilePicture?: string | null;
 }

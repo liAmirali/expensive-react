@@ -5,13 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Box, Typography } from "@mui/material";
 import AvatarGroup from "../../atoms/users/AvatarGroup";
 import { getGroupDetails, getOccasionDetails } from "../../../api/groups";
-import { useAppSelector } from "../../../store";
 import OccasionExpenseItem from "../../groups/OccasionExpenseItem";
+import BackdropLoading from "../../atoms/loading/BackdropLoading";
+import { getUserDisplayName } from "../../../utils/getters";
 
 const OccasionViewScreen: FC = () => {
   const { groupId, occasionId } = useParams();
-
-  const loggedInUser = useAppSelector((state) => state.auth.user);
 
   const groupQuery = useQuery({
     queryKey: ["groupDetails", "groupId", { groupId: groupId! }],
@@ -45,25 +44,32 @@ const OccasionViewScreen: FC = () => {
 
   return (
     <Screen topBarProps={{ showBackButton: true }}>
-      {occasionData ? (
+      {occasionQuery.isSuccess && groupQuery.isSuccess ? (
         <Box display="flex" flexDirection="column" rowGap={5}>
           <Box display="flex" alignItems="center" columnGap={2}>
-            <Typography variant="h4">{occasionData.name}</Typography>
-            <AvatarGroup people={members.map((m) => ({ name: m.name }))} width={30} height={30} />
+            <Typography variant="h4">{occasionData!.name}</Typography>
+            <AvatarGroup
+              people={members.map((m) => ({ name: getUserDisplayName(m) }))}
+              width={30}
+              height={30}
+            />
           </Box>
 
           <Box>
-            <Typography>Expenses</Typography>
-            {occasionData.expenses.map((expense) => (
+            <Typography mb={2}>Occasion Expenses</Typography>
+            {occasionData!.expenses.map((expense) => (
               <OccasionExpenseItem
                 key={expense._id}
                 expense={expense}
-                paidBy={expense.paidBy}
-                userId={loggedInUser?._id}
+                paidBy={members.find((member) => member._id === expense.paidBy)}
+                assignedTo={members.filter((member) => expense.assignedTo.includes(member._id))}
+                debtsAndDemands={debtsAndDemands!}
               />
             ))}
           </Box>
         </Box>
+      ) : occasionQuery.isLoading || groupQuery.isLoading ? (
+        <BackdropLoading open={true} />
       ) : (
         <Typography>No occasion was found or you don't have the access to it.</Typography>
       )}

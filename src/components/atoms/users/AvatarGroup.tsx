@@ -1,25 +1,29 @@
-import { Avatar, AvatarGroup as MuiAvatarGroup } from "@mui/material";
+import { AvatarGroup as MuiAvatarGroup } from "@mui/material";
 import { FC } from "react";
+import SingleAvatar from "./SingleAvatar";
 
 type Props = {
-  people: {
-    name: string;
-    imageSrc?: string;
-  }[];
+  people: (
+    | {
+        name: string;
+        imageSrc?: string;
+      }
+    | IUser
+  )[];
   n?: number;
   width?: number;
   height?: number;
 };
 
-const AvatarGroup: FC<Props> = ({ people, n = 5, width, height }) => {
+const AvatarGroup: FC<Props> = ({ people, n = 5, ...singleAvatarProps }) => {
   return (
     <MuiAvatarGroup total={people.length}>
       {people.slice(0, n).map((person, index) => (
-        <Avatar
-          alt={person.name}
-          src={person.imageSrc || "#"}
+        <SingleAvatar
           key={person.name + "__" + index}
-          sx={{ width, height, fontSize: width && width / 2 }}
+          person={person}
+          alt={person.name}
+          {...singleAvatarProps}
         />
       ))}
     </MuiAvatarGroup>
