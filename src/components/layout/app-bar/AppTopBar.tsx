@@ -30,7 +30,7 @@ const AppTopBar: FC<TopBarProps> = ({
 
   const handleBackClick = () => {
     if (backTo) navigate(backTo);
-    else navigate(-1);
+    else navigate("./..");
   };
 
   if (user === null) return <></>;
