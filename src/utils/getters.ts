@@ -5,3 +5,7 @@ export const getCorrectNoun = (count: number, singularForm: string, pluralForm: 
 export const getUserDisplayName = (user: IUser) => {
   return user.name || user.username;
 };
+
+export const getPrettyPrice = (price: number) => {
+  return price.toFixed(2);
+};

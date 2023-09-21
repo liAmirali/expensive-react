@@ -1,14 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { MaterialSymbol } from "react-material-symbols";
 import { useAppSelector } from "../../store";
-import { getUserDisplayName } from "../../utils/getters";
+import { getCorrectNoun, getPrettyPrice, getUserDisplayName } from "../../utils/getters";
 import SingleAvatar from "../atoms/users/SingleAvatar";
 import AvatarGroup from "../atoms/users/AvatarGroup";
 
 interface Props {
-  expense: IExpense;
+  expense: IOccasionExpense;
   paidBy?: IUser;
   assignedTo?: IUser[];
   debtsAndDemands: DebtsAndDemands;
@@ -17,11 +17,14 @@ interface Props {
 const OccasionExpenseItem: FC<Props> = ({ expense, paidBy, assignedTo, debtsAndDemands }) => {
   const loggedInUser = useAppSelector((state) => state.auth.user)!;
 
-  const assigneeCandidates = assignedTo?.slice(0, 3) || [];
+  const assigneeCandidates = useMemo(() => assignedTo?.slice(0, 3) || [], [assignedTo]);
+
+  const payerIsAssignee = assignedTo && paidBy && !!assignedTo.find((i) => i._id === paidBy._id);
 
   console.log("expense :>> ", expense);
   return (
     <Box
+      maxWidth="100%"
       display="flex"
       sx={{ backgroundColor: "white", borderRadius: 3, border: "1px #f0f0f0 solid", p: 2, mb: 2 }}
     >
@@ -33,7 +36,7 @@ const OccasionExpenseItem: FC<Props> = ({ expense, paidBy, assignedTo, debtsAndD
         )}
       </Box>
 
-      <Box flexGrow={1} display="flex" flexDirection="column" rowGap={0.5}>
+      <Box flex={1} display="flex" flexDirection="column" rowGap={0.5} overflow="hidden">
         {paidBy && (
           <Box display="flex" columnGap={1} alignItems="center">
             <SingleAvatar person={paidBy} width={20} height={20} />
@@ -43,6 +46,9 @@ const OccasionExpenseItem: FC<Props> = ({ expense, paidBy, assignedTo, debtsAndD
           </Box>
         )}
         <Typography variant="h6">{expense.title}</Typography>
+        <Typography variant="body2" whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
+          {expense.description}
+        </Typography>
         <Typography variant="caption">
           {dayjs(expense.dateTime).fromNow() + (expense.category ? " | " + expense.category : "")}
         </Typography>
@@ -52,7 +58,7 @@ const OccasionExpenseItem: FC<Props> = ({ expense, paidBy, assignedTo, debtsAndD
             <Typography variant="caption">
               {assigneeCandidates.map(
                 (assignee, index) =>
-                  getUserDisplayName(assignee) +
+                  (assignee._id === loggedInUser._id ? "You" : getUserDisplayName(assignee)) +
                   (index === assigneeCandidates.length - 2
                     ? " and "
                     : index === assigneeCandidates.length - 1
@@ -64,6 +70,22 @@ const OccasionExpenseItem: FC<Props> = ({ expense, paidBy, assignedTo, debtsAndD
           </Box>
         ) : (
           <Typography>Nobody is assigned.</Typography>
+        )}
+
+        {paidBy && (
+          <Typography variant="body2" color={paidBy._id === loggedInUser._id ? "green" : "error"}>
+            {paidBy._id === loggedInUser._id
+              ? `You are owed ${getPrettyPrice(expense?.demand || 0)} ${expense.currency} by ${
+                  !assignedTo ? 0 : payerIsAssignee ? assignedTo.length - 1 : assignedTo.length
+                } ${getCorrectNoun(
+                  !assignedTo ? 0 : payerIsAssignee ? assignedTo.length - 1 : assignedTo.length,
+                  "person",
+                  "people"
+                )}.`
+              : `You owe ${getPrettyPrice(expense?.dong || 0)} ${
+                  expense.currency
+                } to ${getUserDisplayName(paidBy)}.`}
+          </Typography>
         )}
       </Box>
 

@@ -15,6 +15,8 @@ interface IOccasion {
 interface IOccasionExpense extends IExpense {
   paidBy: string;
   assignedTo: string[];
+  dong?: number;
+  demand?: number;
 }
 
 type DebtsAndDemands = { [key: string]: { demand: number; debt: number } };
