@@ -16,7 +16,7 @@ const PersonalExpenseList = () => {
       {expenses.isError ? (
         <p>Error</p>
       ) : res && res.data.expenses.length > 0 ? (
-        res.data.expenses.map((expense) => <ExpenseItem expense={expense} />)
+        res.data.expenses.map((expense) => <ExpenseItem key={expense._id} expense={expense} />)
       ) : res ? (
         <Box
           display="flex"

@@ -1,15 +1,21 @@
 import { Button } from "@mui/material";
+import { FC } from "react";
 import { MaterialSymbol } from "react-material-symbols";
 import { Link } from "react-router-dom";
 
-const CreateGroupTopBarButton = () => {
+type Props = {
+  label?: string;
+  to?: string;
+};
+
+const CreateNew: FC<Props> = ({ label = "Add New", to = "create" }) => {
   return (
-    <Link to="create">
+    <Link to={to}>
       <Button size="large" startIcon={<MaterialSymbol icon="add" weight={200} size={25} />}>
-        New Group
+        {label}
       </Button>
     </Link>
   );
 };
 
-export default CreateGroupTopBarButton;
+export default CreateNew;

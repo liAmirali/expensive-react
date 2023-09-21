@@ -10,7 +10,6 @@ import { ApiResponse, fetcher } from "./config";
 // }
 
 export const getPersonalExpenses = () => {
-  // console.log("queryKey:", queryKey);
   return fetcher.get<ApiResponse<{ expenses: IExpense[] }>>("/expense");
 };
 

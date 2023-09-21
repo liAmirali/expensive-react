@@ -71,7 +71,7 @@ const OccasionViewScreen: FC = () => {
       ) : occasionQuery.isLoading || groupQuery.isLoading ? (
         <BackdropLoading open={true} />
       ) : (
-        <Typography>No occasion was found or you don't have the access to it.</Typography>
+        <Typography>No occasion was found or you don&apos;t have the access to it.</Typography>
       )}
     </Screen>
   );

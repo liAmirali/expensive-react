@@ -8,6 +8,13 @@ interface IUser {
   profilePicture?: string | null;
 }
 
+interface ITrimmedUser {
+  _id: string;
+  email: string;
+  username: string;
+  name: string;
+}
+
 type ExpenseType = "EXPENSE" | "INCOME";
 
 interface IExpense {

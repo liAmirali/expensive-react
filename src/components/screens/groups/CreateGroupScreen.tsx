@@ -1,7 +1,7 @@
 import { Autocomplete, Button, Chip, Grid, TextField, Typography } from "@mui/material";
 import Screen from "../../layout/Screen";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { SearchedUser, searchUsers } from "../../../api/user";
+import { searchUsers } from "../../../api/user";
 import { FormEventHandler, useEffect, useState } from "react";
 import { CreateGroupData, createGroup } from "../../../api/groups";
 import { toast } from "react-toastify";
@@ -9,8 +9,8 @@ import { toast } from "react-toastify";
 const CreateGroupsScreen = () => {
   const [userSearchQuery, setUserSearchQuery] = useState("");
   const [groupName, setGroupName] = useState("");
-  const [fetchedUsers, setFetchedUsers] = useState<SearchedUser[]>([]);
-  const [selectedUsers, setSelectedUsers] = useState<SearchedUser[]>([]);
+  const [fetchedUsers, setFetchedUsers] = useState<ITrimmedUser[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<ITrimmedUser[]>([]);
 
   const userSearch = useQuery({
     queryFn: searchUsers,
@@ -28,15 +28,15 @@ const CreateGroupsScreen = () => {
 
   useEffect(() => {
     if (userSearch.data) setFetchedUsers(userSearch.data.data.data.users);
-  }, [userSearch.isSuccess]);
+  }, [userSearch.isSuccess, userSearch.data]);
 
   useEffect(() => {
     if (groupMutation.isError) {
       console.log(groupMutation.error);
     }
-  }, [groupMutation.isError]);
+  }, [groupMutation.isError, groupMutation.error]);
 
-  const handleMemberSelect = (value: SearchedUser | null) => {
+  const handleMemberSelect = (value: ITrimmedUser | null) => {
     if (value === null) return;
 
     const found = selectedUsers.find((user) => user._id === value._id);
@@ -82,6 +82,7 @@ const CreateGroupsScreen = () => {
         <Grid item xs={12}>
           {selectedUsers.map((user) => (
             <Chip
+              key={user.username}
               label={"@" + user.username}
               onDelete={() => handleMemberSelect(user)}
               sx={{ mr: 1, mb: 1 }}
