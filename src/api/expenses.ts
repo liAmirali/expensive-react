@@ -13,6 +13,6 @@ export const getPersonalExpenses = () => {
   return fetcher.get<ApiResponse<{ expenses: IExpense[] }>>("/expense");
 };
 
-export const addPersonalExpense = (data: IExpense) => {
+export const addPersonalExpense = (data: Omit<IExpense, "_id">) => {
   return fetcher.post<ApiResponse<{ expense: IExpense }>>("/expense", data);
 };

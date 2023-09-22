@@ -28,3 +28,7 @@ interface IExpense {
   dateTime: string;
 }
 
+interface ICurrency {
+  name: string;
+  abbr: string;
+}

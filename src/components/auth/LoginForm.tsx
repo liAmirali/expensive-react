@@ -8,12 +8,12 @@ import {
   Typography,
   Container,
 } from "@mui/material";
-import Input from "../atoms/inputs/formik/Input";
+import FormikInput from "../atoms/inputs/formik/FormikInput";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useMutation } from "@tanstack/react-query";
 import { loginUser } from "../../api/auth";
 import { Link as RouterLink } from "react-router-dom";
-import { useFormik } from "formik";
+import { FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 import { AxiosError } from "axios";
 import { ApiResponse } from "../../api/config";
@@ -36,7 +36,7 @@ const LoginForm = () => {
       dispatch(authActions.setUser(data.data.user));
     },
   });
-  const error = !!mutation.error
+  const error = mutation.error
     ? (mutation.error as AxiosError<ApiResponse>).response?.data
     : undefined;
 
@@ -84,53 +84,54 @@ const LoginForm = () => {
           Sign in
         </Typography>
         {/* Form */}
-        <Box component="form" noValidate onSubmit={formik.handleSubmit} mt={1} width={"80%"}>
-          <Input
-            formik={formik}
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <Input
-            formik={formik}
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            boxProps={{ mt: 2 }}
-          />
-          <FormControlLabel
-            name="rememberMe"
-            checked={formik.values.rememberMe}
-            onChange={formik.handleChange}
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-            sx={{ mt: 2 }}
-          />
-          {error && (
-            <Typography mt={2} color="error">
-              {error.message || "Failed to login."}
-            </Typography>
-          )}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 4 }}
-            disabled={mutation.isLoading}
-          >
-            {mutation.isLoading ? "Please wait..." : "Sign In"}
-          </Button>
-        </Box>
+        <FormikProvider value={formik}>
+          <Box component="form" noValidate onSubmit={formik.handleSubmit} mt={1} width={"80%"}>
+            <FormikInput
+              name="email"
+              label="Email Address"
+              type="email"
+              id="email"
+              autoComplete="email"
+              required
+              fullWidth
+              autoFocus
+              margin="normal"
+            />
+            <FormikInput
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              required
+              fullWidth
+              margin="normal"
+              boxProps={{ mt: 2 }}
+            />
+            <FormControlLabel
+              name="rememberMe"
+              checked={formik.values.rememberMe}
+              onChange={formik.handleChange}
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+              sx={{ mt: 2 }}
+            />
+            {error && (
+              <Typography mt={2} color="error">
+                {error.message || "Failed to login."}
+              </Typography>
+            )}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 4 }}
+              disabled={mutation.isLoading}
+            >
+              {mutation.isLoading ? "Please wait..." : "Sign In"}
+            </Button>
+          </Box>
+        </FormikProvider>
 
         <Box display="flex" flexDirection="column" alignItems="start" mt={4} width={"80%"}>
           <Link component={RouterLink} to="#">

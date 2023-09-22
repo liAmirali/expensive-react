@@ -6,8 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import { registerUser } from "../../api/auth";
 import { AxiosError } from "axios";
 import { ApiResponse } from "../../api/config";
-import { useFormik } from "formik";
-import Input from "../atoms/inputs/formik/Input";
+import { FormikProvider, useFormik } from "formik";
+import FormikInput from "../atoms/inputs/formik/FormikInput";
 
 interface RegisterForm {
   email: string;
@@ -25,7 +25,7 @@ const RegisterForm = () => {
       navigate("/login");
     },
   });
-  const error = !!mutation.error
+  const error = mutation.error
     ? (mutation.error as AxiosError<ApiResponse>).response?.data
     : undefined;
 
@@ -74,70 +74,69 @@ const RegisterForm = () => {
         </Typography>
 
         {/* Form */}
-        <Box component="form" noValidate onSubmit={formik.handleSubmit} mt={1} width={"80%"}>
-          <Input
-            formik={formik}
-            margin="normal"
-            required
-            fullWidth
-            name="firstName"
-            label="First Name"
-            type="text"
-            id="first-name"
-            autoComplete="given-name"
-            boxProps={{ mt: 2 }}
-          />
-          <Input
-            formik={formik}
-            margin="normal"
-            required
-            fullWidth
-            name="lastName"
-            label="Last Name"
-            type="text"
-            id="last-name"
-            autoComplete="family-name"
-            boxProps={{ mt: 2 }}
-          />
-          <Input
-            formik={formik}
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            boxProps={{ mt: 2 }}
-          />
-          <Input
-            formik={formik}
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            boxProps={{ mt: 2 }}
-          />
+        <FormikProvider value={formik}>
+          <Box component="form" noValidate onSubmit={formik.handleSubmit} mt={1} width={"80%"}>
+            <FormikInput
+              name="firstName"
+              label="First Name"
+              type="text"
+              id="first-name"
+              autoComplete="given-name"
+              required
+              fullWidth
+              margin="normal"
+              boxProps={{ mt: 2 }}
+            />
+            <FormikInput
+              name="lastName"
+              label="Last Name"
+              type="text"
+              id="last-name"
+              autoComplete="family-name"
+              required
+              fullWidth
+              margin="normal"
+              boxProps={{ mt: 2 }}
+            />
+            <FormikInput
+              name="email"
+              label="Email Address"
+              id="email"
+              type="email"
+              autoComplete="email"
+              required
+              margin="normal"
+              fullWidth
+              boxProps={{ mt: 2 }}
+            />
+            <FormikInput
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              margin="normal"
+              autoComplete="current-password"
+              required
+              fullWidth
+              boxProps={{ mt: 2 }}
+            />
 
-          {error && (
-            <Typography mt={2} color="error">
-              {error.message || "Failed to login."}
-            </Typography>
-          )}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 4 }}
-            disabled={mutation.isLoading}
-          >
-            {mutation.isLoading ? "Please wait..." : "Register"}
-          </Button>
-        </Box>
+            {error && (
+              <Typography mt={2} color="error">
+                {error.message || "Failed to login."}
+              </Typography>
+            )}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 4 }}
+              disabled={mutation.isLoading}
+            >
+              {mutation.isLoading ? "Please wait..." : "Register"}
+            </Button>
+          </Box>
+        </FormikProvider>
 
         <Box display="flex" flexDirection="column" alignItems="start" mt={4} width={"80%"}>
           <Link component={RouterLink} to="/login">
