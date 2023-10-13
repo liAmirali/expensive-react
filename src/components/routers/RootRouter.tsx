@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import SettingsScreen from "../screens/SettingsScreen";
 import ExpensesRouter from "./ExpensesRouter";
 import GroupsRouter from "./GroupsRouter";
+import { AxiosError, isAxiosError } from "axios";
+import { ApiResponse } from "../../api/config";
 
 const RootRouter = () => {
   const dispatch = useAppDispatch();
@@ -26,8 +28,14 @@ const RootRouter = () => {
     onError: (error) => {
       console.log("Verification error:", error);
 
-      window.localStorage.removeItem("accessToken");
-      dispatch(authActions.setUser(null));
+      if (isAxiosError(error)) {
+        const apiError = error as AxiosError<ApiResponse>;
+
+        if (apiError.status === 401) {
+          window.localStorage.removeItem("accessToken");
+          dispatch(authActions.setUser(null));
+        }
+      }
 
       navigate("/login");
     },
