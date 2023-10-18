@@ -10,6 +10,9 @@ import BackdropLoading from "../../atoms/loading/BackdropLoading";
 import { getUserDisplayName } from "../../../utils/getters";
 import { MaterialSymbol } from "react-material-symbols";
 import CreateNew from "../../atoms/buttons/CreateNew";
+import { AxiosError } from "axios";
+import { ApiResponse } from "../../../api/config";
+import OccasionViewHeader from "../../groups/OccasionViewHeader";
 
 const OccasionViewScreen: FC = () => {
   const { groupId, occasionId } = useParams();
@@ -20,12 +23,10 @@ const OccasionViewScreen: FC = () => {
   });
 
   const occasionQuery = useQuery({
-    queryKey: [
-      "occasionDetails",
-      { groupId: groupId!, occasionId: occasionId! },
-    ],
+    queryKey: ["occasionDetails", { groupId: groupId!, occasionId: occasionId! }],
     queryFn: getOccasionDetails,
   });
+  const occasionQueryError = occasionQuery.error as AxiosError<ApiResponse>;
 
   const groupData = groupQuery.data?.data.data.group;
   const occasionData = occasionQuery.data?.data.data.occasion;
@@ -38,10 +39,6 @@ const OccasionViewScreen: FC = () => {
         )
       : [];
 
-  console.log("groupId :>> ", groupId);
-  console.log("occasionId :>> ", occasionId);
-  console.log("occasionData :>> ", occasionData);
-
   return (
     <Screen
       topBarProps={{
@@ -51,14 +48,7 @@ const OccasionViewScreen: FC = () => {
     >
       {occasionQuery.isSuccess && groupQuery.isSuccess ? (
         <Box display="flex" flexDirection="column" rowGap={5}>
-          <Box display="flex" alignItems="center" columnGap={2}>
-            <Typography variant="h4">{occasionData!.name}</Typography>
-            <AvatarGroup
-              people={members.map((m) => ({ name: getUserDisplayName(m) }))}
-              width={30}
-              height={30}
-            />
-          </Box>
+          <OccasionViewHeader members={members} occasionName={occasionData!.name} />
 
           <Box>
             <Typography mb={2}>Occasion Expenses</Typography>
@@ -95,7 +85,10 @@ const OccasionViewScreen: FC = () => {
       ) : occasionQuery.isLoading || groupQuery.isLoading ? (
         <BackdropLoading open={true} />
       ) : (
-        <Typography>No occasion was found or you don&apos;t have the access to it.</Typography>
+        <Typography>
+          {occasionQueryError.response?.data.message ||
+            "No occasion was found or you don&apos;t have the access to it."}
+        </Typography>
       )}
     </Screen>
   );
