@@ -3,17 +3,25 @@ import { FC } from "react";
 import { getCorrectNoun } from "../../utils/getters";
 import { MaterialSymbol } from "react-material-symbols";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../store";
 
 interface Props {
   group: IGroup;
 }
 
 const GroupListItem: FC<Props> = ({ group }) => {
+  const userId = useAppSelector((state) => state.auth.user?._id);
+
   const navigate = useNavigate();
 
   const handleItemClick = () => {
     navigate(group._id);
   };
+
+  const net =
+    userId && group.debtsAndDemands && group.debtsAndDemands[userId]
+      ? group.debtsAndDemands[userId].demand - group.debtsAndDemands[userId].debt
+      : 0;
 
   return (
     <Box
@@ -42,10 +50,10 @@ const GroupListItem: FC<Props> = ({ group }) => {
       </Box>
 
       <Box>
-        <Typography variant="h6" color={"error"}>
-          -68.99
+        <Typography variant="h6" color={net < 0 ? "error" : "green"}>
+          {net}
         </Typography>
-        <Typography align="right">USD</Typography>
+        <Typography align="right">IRT(?)</Typography>
       </Box>
     </Box>
   );

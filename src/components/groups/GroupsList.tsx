@@ -10,8 +10,6 @@ const GroupsList = () => {
   const groupsQuery = useQuery({ queryKey: ["groups"], queryFn: getGroupsList });
   const res = groupsQuery.data?.data;
 
-  console.log("GROUPS QRY ERR", groupsQuery.error);
-
   return (
     <Box flex={1}>
       <BackdropLoading open={groupsQuery.isLoading} />

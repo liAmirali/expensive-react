@@ -3,6 +3,7 @@ interface IGroup {
   name: string;
   members: ITrimmedUser[] | string[];
   occasions: IOccasion[];
+  debtsAndDemands?: DebtsAndDemands;
 }
 
 interface IOccasion {

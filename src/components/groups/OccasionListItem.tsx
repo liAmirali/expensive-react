@@ -17,9 +17,9 @@ const OccasionListItem: FC<Props> = ({ occasion }) => {
     navigate(occasion._id);
   };
 
-  const debtsAndDemands = occasion.debtsAndDemands!;
+  const debtsAndDemands = occasion.debtsAndDemands;
   const net =
-    userId && debtsAndDemands[userId]
+    userId && debtsAndDemands && debtsAndDemands[userId]
       ? debtsAndDemands[userId].demand - debtsAndDemands[userId].debt
       : 0;
 
