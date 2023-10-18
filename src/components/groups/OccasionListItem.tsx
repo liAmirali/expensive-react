@@ -3,17 +3,25 @@ import { FC } from "react";
 import { MaterialSymbol } from "react-material-symbols";
 import { getCorrectNoun } from "../../utils/getters";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../store";
 
 type Props = {
   occasion: IOccasion;
 };
 
 const OccasionListItem: FC<Props> = ({ occasion }) => {
+  const userId = useAppSelector((state) => state.auth.user?._id);
   const navigate = useNavigate();
 
   const handleOccasionClick = () => {
     navigate(occasion._id);
   };
+
+  const debtsAndDemands = occasion.debtsAndDemands!;
+  const net =
+    userId && debtsAndDemands[userId]
+      ? debtsAndDemands[userId].demand - debtsAndDemands[userId].debt
+      : 0;
 
   return (
     <Box
@@ -42,10 +50,10 @@ const OccasionListItem: FC<Props> = ({ occasion }) => {
       </Box>
 
       <Box>
-        <Typography variant="h6" color={"error"}>
-          -68.99
+        <Typography variant="h6" color={net < 0 ? "error" : "green"}>
+          {net}
         </Typography>
-        <Typography align="right">USD</Typography>
+        <Typography align="right">IRT(?)</Typography>
       </Box>
     </Box>
   );

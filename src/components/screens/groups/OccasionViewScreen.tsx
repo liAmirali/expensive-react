@@ -7,7 +7,6 @@ import AvatarGroup from "../../atoms/users/AvatarGroup";
 import { getGroupDetails, getOccasionDetails } from "../../../api/groups";
 import OccasionExpenseItem from "../../groups/OccasionExpenseItem";
 import BackdropLoading from "../../atoms/loading/BackdropLoading";
-import { getUserDisplayName } from "../../../utils/getters";
 import { MaterialSymbol } from "react-material-symbols";
 import CreateNew from "../../atoms/buttons/CreateNew";
 import { AxiosError } from "axios";
@@ -31,6 +30,8 @@ const OccasionViewScreen: FC = () => {
   const groupData = groupQuery.data?.data.data.group;
   const occasionData = occasionQuery.data?.data.data.occasion;
   const debtsAndDemands = occasionQuery.data?.data.data.debtsAndDemands;
+
+  console.log('debtsAndDemands :>> ', debtsAndDemands);
 
   const members =
     groupData && occasionData

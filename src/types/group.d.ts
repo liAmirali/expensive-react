@@ -10,6 +10,7 @@ interface IOccasion {
   name: string;
   members: IUser[] | string[];
   expenses: IOccasionExpense[];
+  debtsAndDemands?: DebtsAndDemands;
 }
 
 interface IOccasionExpense extends IExpense {
