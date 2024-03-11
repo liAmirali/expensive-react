@@ -16,6 +16,7 @@ node_modules
 build
 dist
 *.local
+liara.json
 
 # Editor directories and files
 .vscode
