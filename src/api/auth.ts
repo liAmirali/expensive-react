@@ -8,8 +8,8 @@ interface LoginUserParams {
 interface RegisterUserParams {
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
+  name: string;
+  username: string;
 }
 
 interface LoginResData {

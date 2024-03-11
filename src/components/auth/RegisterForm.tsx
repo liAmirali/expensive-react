@@ -10,10 +10,11 @@ import { FormikProvider, useFormik } from "formik";
 import FormikInput from "../atoms/inputs/formik/FormikInput";
 
 interface RegisterForm {
+  name: string;
+  username: string;
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
+  passwordConfirmation: string;
 }
 
 const RegisterForm = () => {
@@ -30,26 +31,28 @@ const RegisterForm = () => {
     : undefined;
 
   const handleSubmit = (values: RegisterForm) => {
-    const { email, password, firstName, lastName } = values;
+    const { email, password, name, username } = values;
 
-    console.log({
-      email: email,
-      password: password,
-    });
-
-    mutation.mutate({ email, password, firstName, lastName });
+    mutation.mutate({ email, password, name, username });
   };
 
   const validationSchema = Yup.object({
     email: Yup.string()
       .email("Please enter a valid email address.")
       .required("Please enter your account's email."),
-    password: Yup.string().required("Please enter your account's password."),
-    firstName: Yup.string().required("Please enter your first name."),
+    name: Yup.string().required("Please enter your name."),
+    username: Yup.string().required("Please enter your username."),
+    password: Yup.string()
+      .required("Please enter your account's password.")
+      .matches(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/,
+        "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character"
+      ),
+    passwordConfirmation: Yup.string().oneOf([Yup.ref("password")], "Passwords must match"),
   });
 
   const formik = useFormik<RegisterForm>({
-    initialValues: { email: "", password: "", firstName: "", lastName: "" },
+    initialValues: { email: "", name: "", username: "", password: "", passwordConfirmation: "" },
     validationSchema,
     onSubmit: handleSubmit,
     validateOnBlur: false,
@@ -77,23 +80,21 @@ const RegisterForm = () => {
         <FormikProvider value={formik}>
           <Box component="form" noValidate onSubmit={formik.handleSubmit} mt={1} width={"80%"}>
             <FormikInput
-              name="firstName"
-              label="First Name"
+              name="name"
+              label="Name"
               type="text"
-              id="first-name"
+              id="name"
               autoComplete="given-name"
-              required
               fullWidth
               margin="normal"
               boxProps={{ mt: 2 }}
             />
             <FormikInput
-              name="lastName"
-              label="Last Name"
+              name="username"
+              label="Username"
               type="text"
-              id="last-name"
-              autoComplete="family-name"
-              required
+              id="username"
+              autoComplete="username"
               fullWidth
               margin="normal"
               boxProps={{ mt: 2 }}
@@ -104,7 +105,6 @@ const RegisterForm = () => {
               id="email"
               type="email"
               autoComplete="email"
-              required
               margin="normal"
               fullWidth
               boxProps={{ mt: 2 }}
@@ -115,8 +115,17 @@ const RegisterForm = () => {
               type="password"
               id="password"
               margin="normal"
-              autoComplete="current-password"
-              required
+              autoComplete="new-password"
+              fullWidth
+              boxProps={{ mt: 2 }}
+            />
+            <FormikInput
+              name="passwordConfirmation"
+              label="Repeat Password"
+              type="password"
+              id="password-confirmation"
+              margin="normal"
+              autoComplete="new-password"
               fullWidth
               boxProps={{ mt: 2 }}
             />
