@@ -14,7 +14,7 @@ interface Props {
   debtsAndDemands: DebtsAndDemands;
 }
 
-const OccasionExpenseItem: FC<Props> = ({ expense, paidBy, assignedTo, debtsAndDemands }) => {
+const OccasionExpenseItem: FC<Props> = ({ expense, paidBy, assignedTo }) => {
   const loggedInUser = useAppSelector((state) => state.auth.user)!;
 
   const assigneeCandidates = useMemo(() => assignedTo?.slice(0, 3) || [], [assignedTo]);

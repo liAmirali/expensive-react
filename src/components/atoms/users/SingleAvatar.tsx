@@ -1,4 +1,4 @@
-import { Avatar, AvatarProps, SxProps, Theme } from "@mui/material";
+import { Avatar, AvatarProps, SxProps } from "@mui/material";
 import { FC } from "react";
 
 export type SingleAvatarProps = {

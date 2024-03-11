@@ -3,7 +3,6 @@ import Screen from "../../layout/Screen";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Box, Button, Typography } from "@mui/material";
-import AvatarGroup from "../../atoms/users/AvatarGroup";
 import { getGroupDetails, getOccasionDetails } from "../../../api/groups";
 import OccasionExpenseItem from "../../groups/OccasionExpenseItem";
 import BackdropLoading from "../../atoms/loading/BackdropLoading";

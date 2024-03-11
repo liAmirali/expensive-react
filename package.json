@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 3300 --host",
-    "build": "tsc && vite build",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
