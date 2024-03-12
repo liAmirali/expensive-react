@@ -4,7 +4,7 @@ import CreateNew from "../../atoms/buttons/CreateNew";
 
 const ExpensesScreen = () => {
   return (
-    <Screen topBarProps={{ rightChild: <CreateNew label="New Expense" to="create" /> }}>
+    <Screen topBarProps={{ rightChild: <CreateNew label="New Expense" to="add" /> }}>
       <PersonalExpenseList />
     </Screen>
   );

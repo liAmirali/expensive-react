@@ -1,5 +1,4 @@
 import { AppBar, Box, Toolbar, Typography, Container, Button } from "@mui/material";
-import { AdbOutlined } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import UserAvatar from "./UserAvatar";
 import { useAppSelector } from "../../../store";
@@ -39,8 +38,6 @@ const AppTopBar: FC<TopBarProps> = ({
     <AppBar color="inherit" position="static" sx={{ zIndex: 2, boxShadow: "none" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* Logo on desktop */}
-          <AdbOutlined sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
