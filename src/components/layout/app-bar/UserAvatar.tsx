@@ -19,12 +19,14 @@ const UserAvatar: FC<Props> = ({ user }) => {
     setAnchorElUser(null);
   };
 
+  const displayName = getUserDisplayName(user);
+
   return (
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           <Avatar sx={{ backgroundColor: theme.palette.primary.main }} alt={user.name}>
-            {getUserDisplayName(user)[0]}
+            {displayName ? displayName[0] : undefined}
           </Avatar>
         </IconButton>
       </Tooltip>

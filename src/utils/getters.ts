@@ -3,7 +3,7 @@ export const getCorrectNoun = (count: number, singularForm: string, pluralForm: 
 };
 
 export const getUserDisplayName = (user: IUser | ITrimmedUser) => {
-  return user.name || user.username;
+  return user.name || user.username || null;
 };
 
 export const getPrettyPrice = (price: number) => {

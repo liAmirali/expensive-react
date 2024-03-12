@@ -34,6 +34,7 @@ const LoginForm = () => {
     onSuccess({ data }) {
       window.localStorage.setItem("accessToken", data.data.accessToken);
       dispatch(authActions.setUser(data.data.user));
+      console.log("data.data.user", data.data.user)
     },
   });
   const error = mutation.error

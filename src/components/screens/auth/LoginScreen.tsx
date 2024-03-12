@@ -13,7 +13,7 @@ const LoginScreen = () => {
     if (user !== null) {
       navigate("/");
     }
-  }, [user]);
+  }, [navigate, user]);
 
   return (
     <Screen>
