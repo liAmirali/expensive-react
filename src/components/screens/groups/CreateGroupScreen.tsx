@@ -5,8 +5,11 @@ import { searchUsers } from "../../../api/user";
 import { FormEventHandler, useEffect, useState } from "react";
 import { CreateGroupData, createGroup } from "../../../api/groups";
 import { toast } from "react-toastify";
+import { useAppSelector } from "../../../store";
 
 const CreateGroupsScreen = () => {
+  const loggedInUserId = useAppSelector((state) => state.auth.user?._id);
+
   const [userSearchQuery, setUserSearchQuery] = useState("");
   const [groupName, setGroupName] = useState("");
   const [fetchedUsers, setFetchedUsers] = useState<ITrimmedUser[]>([]);
@@ -95,7 +98,7 @@ const CreateGroupsScreen = () => {
             onChange={(_event, value) => handleMemberSelect(value)}
             fullWidth
             options={fetchedUsers}
-            filterOptions={(x) => x}
+            filterOptions={(x) => x.filter((u) => u._id !== loggedInUserId)}
             getOptionLabel={(option) => "@" + option.username}
             noOptionsText="No user found"
             loading={userSearch.isFetching}
