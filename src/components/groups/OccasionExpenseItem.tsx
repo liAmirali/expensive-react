@@ -37,6 +37,10 @@ const OccasionExpenseItem: FC<Props> = ({ expense, paidBy, assignedTo }) => {
       </Box>
 
       <Box flex={1} display="flex" flexDirection="column" rowGap={0.5} overflow="hidden">
+        {/* Title */}
+        <Typography variant="h6">{expense.title}</Typography>
+
+        {/* Payer */}
         {paidBy && (
           <Box display="flex" columnGap={1} alignItems="center">
             <SingleAvatar person={paidBy} width={20} height={20} />
@@ -45,13 +49,8 @@ const OccasionExpenseItem: FC<Props> = ({ expense, paidBy, assignedTo }) => {
             </Typography>
           </Box>
         )}
-        <Typography variant="h6">{expense.title}</Typography>
-        <Typography variant="body2" whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
-          {expense.description}
-        </Typography>
-        <Typography variant="caption">
-          {dayjs(expense.dateTime).fromNow() + (expense.category ? " | " + expense.category : "")}
-        </Typography>
+
+        {/* Assignees */}
         {assignedTo ? (
           <Box display="flex" columnGap={1} alignItems="center">
             <AvatarGroup people={assignedTo} n={3} width={20} height={20} />
@@ -71,6 +70,16 @@ const OccasionExpenseItem: FC<Props> = ({ expense, paidBy, assignedTo }) => {
         ) : (
           <Typography>Nobody is assigned.</Typography>
         )}
+
+        {/* Description */}
+        <Typography variant="body2" whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
+          {expense.description}
+        </Typography>
+
+        {/* Time and Category */}
+        <Typography variant="caption">
+          {dayjs(expense.dateTime).fromNow() + (expense.category ? " | " + expense.category : "")}
+        </Typography>
 
         {paidBy && (
           <Typography variant="body2" color={paidBy._id === loggedInUser._id ? "green" : "error"}>
