@@ -1,7 +1,9 @@
 import {
   Button,
   Chip,
+  FormControl,
   Grid,
+  InputLabel,
   MenuItem,
   OutlinedInput,
   Select,
@@ -53,8 +55,9 @@ const CreateOccasionScreen = () => {
     if (occasionMutation.isSuccess && occasionMutation.data) {
       toast("Occasion was created successfully.", { type: "success" });
       console.log("occasionMutation.data :>> ", occasionMutation.data);
+      const occasionId = occasionMutation.data.data.data.occasion._id;
 
-      navigate("./../"); // Goes one level up, which will be the group details page
+      navigate(`./../${occasionId}`);
     }
   }, [occasionMutation.isSuccess, occasionMutation.data, navigate]);
 
@@ -123,13 +126,15 @@ const CreateOccasionScreen = () => {
         </Grid>
 
         <Grid item xs={12}>
+          <InputLabel id="select-members-multiple-input-label">Select Members</InputLabel>
           <Select
+            labelId="select-members-multiple-input-label"
+            id="select-members-multiple-input"
             name="selectedMember"
             multiple
             value={selectedUserIds}
             onChange={(e) => handleSelectUser(e.target.value as string[])}
             input={<OutlinedInput />}
-            renderValue={() => <Typography>Select Members</Typography>}
             fullWidth
           >
             {groupMembers.map((groupMember) => (

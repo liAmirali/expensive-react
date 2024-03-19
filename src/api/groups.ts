@@ -49,7 +49,7 @@ export const getOccasionDetails: QueryFunction<
 };
 
 export const createOccasion: MutationFunction<
-  AxiosResponse<ApiResponse<IOccasion>>,
+  AxiosResponse<ApiResponse<{ occasion: IOccasion }>>,
   { groupId: string; name: string; members: string[] }
 > = (data) => {
   return fetcher.post("/group/occasion", data);
