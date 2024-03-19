@@ -118,7 +118,7 @@ const AddOccasionExpenseScreen: FC = () => {
       <FormikProvider value={formik}>
         <Grid component="form" container mt={4} spacing={2} onSubmit={formik.handleSubmit}>
           <Grid item xs={9}>
-            <FormikInput fullWidth name="value" label="Value" />
+            <FormikInput fullWidth name="value" label="Value" type="number" />
           </Grid>
 
           <Grid item xs={3}>
