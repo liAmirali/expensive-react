@@ -56,8 +56,8 @@ const GroupViewScreen = () => {
                 <Typography mt={1} variant="h5">
                   This group has no occasions in it.
                 </Typography>
-                <Link to="create">
-                  <Button size="large">Try adding new ones</Button>
+                <Link to="create-occasion">
+                  <Button size="large">Try adding a new one</Button>
                 </Link>
               </Box>
             )}
