@@ -6,8 +6,11 @@ import { FormEventHandler, useEffect, useState } from "react";
 import { CreateGroupData, createGroup } from "../../../api/groups";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../../../store";
+import { useNavigate } from "react-router-dom";
 
 const CreateGroupsScreen = () => {
+  const navigate = useNavigate();
+
   const loggedInUserId = useAppSelector((state) => state.auth.user?._id);
 
   const [userSearchQuery, setUserSearchQuery] = useState("");
@@ -24,8 +27,10 @@ const CreateGroupsScreen = () => {
   const groupMutation = useMutation({
     mutationKey: ["group"],
     mutationFn: createGroup,
-    onSuccess: () => {
-      toast("Your new group was successfully created.", { type: "success" });
+    onSuccess: ({ data }) => {
+      toast("Your new group has been created successfully!", { type: "success" });
+      const newGroupId = data.data.group._id;
+      navigate(`../${newGroupId}`);
     },
   });
 
